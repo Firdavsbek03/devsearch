@@ -12,12 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a)nml0&qj-uk=ab!kx3niudws)#b*lpd8q=4p(sq4a=$r!xdr0'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG",default=False)
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','.herokuapp.com']
 
 
 # Application definition
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # Global apps
     "rest_framework",
     "corsheaders",
+    "storages",
 ]
 
 REST_FRAMEWORK = {
@@ -110,8 +111,12 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'devsearch',
+        'USER':"postgres",
+        'PASSWORD':'fi77av77ek',
+        'PORT':"5432",
+        'HOST':'database-1.cljtfi6np5vp.ap-northeast-1.rds.amazonaws.com',
     }
 }
 
@@ -170,3 +175,11 @@ MEDIA_ROOT=BASE_DIR/'static/images'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAQDLFV6J4JIQXTXOU'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'devsearch-bucket-frank'
